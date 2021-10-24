@@ -1,0 +1,11 @@
+					CS203 Project
+Title: A c++ program to simplify Boolean expressions inspired by Karnaugh map.
+
+Overall Objective: Basically, our program can simplify the Boolean algebra expression that user desire to minimize by using the concept of Karnaugh map.
+
+Functionality:  
+This project takes the input of number of Boolean variables from the user.
+The user should enter the input either in form of min terms (SOP), max terms (POS) or can also enter the Boolean expression itself.
+The program will make the k map of the given the expression, also the minimized form of the Boolean expression.
+
+The program can be used as a software application. One can implement the same in web or in a mobile application.
