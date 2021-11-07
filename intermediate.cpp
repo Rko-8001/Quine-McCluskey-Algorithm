@@ -158,6 +158,7 @@ int main()
         // void checking( truth_table[], power);
         sort(minterms.begin(), minterms.end());
         char pass;
+        system("pause");
 
         cout << "you can check the answer" << endl;
         system("pause");
