@@ -20,7 +20,7 @@ void intro();
 // void printing();
 void instructions();
 void ending();
-void checking(int arr, int size);
+void checking(int arr[], int size);
 int exp_to_minterms(int sizes, string t);
 void invoking_one (int type);
 void invoking_two(int arr[], int size, int n);
@@ -155,10 +155,10 @@ int main()
             system("cls");
             continue;
         }
-        // void checking( truth_table[], power);
+        // checking(truth_table , power);
+        system("pause");
         sort(minterms.begin(), minterms.end());
         char pass;
-        system("pause");
 
         cout << "you can check the answer" << endl;
         system("pause");
@@ -256,13 +256,13 @@ void instructions()
 }
 void checking(int arr[], int size)
 {
+    cout<<"min terms stored are: ";
     for (int y = 0; y < size; y++)
     {
         if (arr[y] == 1)
             cout << y << " ";
-        if (arr[y] == 0)
-            cout << y << " ";
     }
+    cout<<endl;
 }
 void invoking_one (int type)
 {
