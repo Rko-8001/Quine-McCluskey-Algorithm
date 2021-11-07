@@ -1,0 +1,26 @@
+The code we have written till now is providing good and user-friendly interface.
+
+The program provides basic instrcutions and info about the program. i.e. how to input etc.
+Code expects user to input following things in given order below:
+1. No. of variables 
+2. Type of input: POS, SOP, expression itself.
+  a. 1 for SOP
+  b. 2 for POS
+  c. 3 for Boolean expression 
+  d. -1 to go on next step
+3. solving will take place
+4. press any key for output.
+5. option for repeating the above process.
+  a. y for yes
+  b. n for no 
+ 
+Functions made till now:
+
+NAME                TYPE            REMARKS
+checking            void            for programer to check whether input and stored values are same or not
+intro               void            Giving brief info about program
+ending              void            Credits to programmers
+instructions        void            instructions for input
+exp_to_minterms     int             converting boolean expressions to min terms ( it doesnot work on cases like we have 4 variables we cant input 3 in them)
+invoking_one        void            function for making interface better and readable to the user
+invoking_two        void            function for making interface better and readable to the user
