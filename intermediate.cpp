@@ -132,7 +132,6 @@ int main()
             {
                 if (truth_table[i] == 1)
                 {
-                    // minterms.push_back(k_map.pad(k_map.decToBin(i)));
                 }
             }
         }
@@ -142,7 +141,6 @@ int main()
             {
                 if (truth_table[i] == -1)
                 {
-                    // minterms.push_back(k_map.pad(k_map.decToBin(i)));
                 }
             }
         }
