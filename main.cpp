@@ -35,7 +35,7 @@ void invoking_three(int arr[], int size, int n);
 void star();
 
 
-class solver // class defined for minimizing
+class solver
 {
 public:
     int varis;
@@ -46,7 +46,18 @@ public:
         varis = num;
         donts.append(num, '-');
     }
+
+    vector_string variables();
+    string binary_convertor(int decimal);
+    int grey_code_check(string one, string two);
+    bool check_present(vector_string one, string two);
+    string compliments(string one, string two);
+    vector_string minimization(vector_string min_terms);
+    string get_answer(string ans);
+    bool string_equal(string one, string two);
+    bool vector_equal(vector_string one, vector_string two);
 };
+
 int main()
 {
     intro();
