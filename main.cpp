@@ -58,6 +58,80 @@ public:
     bool vector_equal(vector_string one, vector_string two);
 };
 
+vector_string solver ::variables()
+{
+    vector_string v_m;
+    string arguments[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+    int i;
+    for (i = 0; i < varis; i++)
+    {
+        v_m.pb(arguments[i]);
+    }
+    return v_m;
+}
+string solver ::binary_convertor(int num)
+{
+    int temp = num;
+    string binary_s = "";
+    if (temp == 0)
+    {
+        binary_s = "0";
+    }
+    else
+    {
+        while (temp > 0)
+        {
+            if (temp % 2 == 0)
+            {
+                binary_s = "0" + binary_s;
+            }
+            else
+            {
+                binary_s = "1" + binary_s;
+            }
+            temp = temp / 2;
+        }
+    }
+    int remainder = varis - binary_s.size();
+    while (remainder > 0)
+    {
+        binary_s = "0" + binary_s;
+        remainder--;
+    }
+    return binary_s;
+}
+int solver ::grey_code_check(string one, string two)
+{
+    int diff = 0;
+    for (int i = 0; i < two.size(); i++)
+    {
+        if (two[i] != one[i])
+        {
+            diff++;
+        }
+    }
+    if (diff == 1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+bool solver ::check_present(vector_string one, string two)
+{
+    for (int i = 0; i < one.size(); i++)
+    {
+        int check = one[i].compare(two);
+        if (check == 0)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 int main()
 {
     intro();
