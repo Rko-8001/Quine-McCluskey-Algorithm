@@ -1,29 +1,38 @@
 #include <iostream>
 #include <stdio.h>
+#include <iterator>
 #include <stdlib.h>
 #include <string>
 #include <string.h>
 #include <cstring>
-#include <limits.h>
-#include <set>
-#include <unordered_map>
 #include <vector>
 #include <algorithm>
-#include <iterator>
-#include <sstream>
 #include <iomanip>
 #include <math.h>
 
 using namespace std;
 
+
+typedef vector<string> vector_string;
+#define pb push_back
+#define nn cout << "\n"
+#define tt cout <<"\t"
+#define dbg(x) cout<<#x<<" = "<<x<<endl
+#define all(v) v.begin(), v.end()
+
 void intro();
-// void printing();
 void instructions();
 void ending();
 void checking(int arr[], int size);
 int exp_to_minterms(int sizes, string t);
-void invoking_one (int type);
+vector_string generateGrayarr(int n);
+void printing_binary_string(int num_to_convert_to_binary, int var);
+int bin_to_int( string s);
+void kmap_display( int minterm[], int var);
+void invoking_one(int type);
 void invoking_two(int arr[], int size, int n);
+void invoking_three(int arr[], int size, int n);
+void star();
 class solver // class defined for minimizing
 {
 public:
@@ -293,3 +302,58 @@ void invoking_two (int arr[] , int size , int n)
     cout << "***********************" << endl;
     cout<<endl;
 }
+
+void star()
+{
+    cout << "**********************************************";
+    cout << "***********************";
+    nn;nn;
+}
+
+vector_string generateGrayarr(int variables_number)
+{
+
+    vector<string> grey_code_vector;
+    if(variables_number<=1)
+    {
+        grey_code_vector.pb(" ");
+        return grey_code_vector;
+    }
+    grey_code_vector.pb("0");
+    grey_code_vector.pb("1");
+    int i, j;
+    for (i = 2; i < (1 << variables_number); i = i << 1)
+    {
+        for (j = i - 1; j >= 0; j--)
+        {
+            grey_code_vector.pb(grey_code_vector[j]);
+        }
+        for (j = 0; j < i; j++)
+        {
+            grey_code_vector[j] = "0" + grey_code_vector[j];
+        }
+        for (j = i; j < 2 * i; j++)
+        {
+            grey_code_vector[j] = "1" + grey_code_vector[j];
+        }
+    }
+    return grey_code_vector;
+}
+int bin_to_int( string s)
+{
+    int sum = 0;
+    for(int i=0; i<s.size(); i++)
+    {
+        if(s[i] == '0')
+        {
+            sum = sum*2;
+        }
+        else
+        {
+            sum = sum*2 +1;
+        }
+    }
+    return sum;
+}
+
+
