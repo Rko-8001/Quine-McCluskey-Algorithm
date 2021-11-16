@@ -23,33 +23,33 @@ typedef vector<string> vector_string;
 void intro();
 void instructions();
 void ending();
-void checking(int arr[], int size);
-int exp_to_minterms(int sizes, string t);
-vector_string generateGrayarr(int n);
-void printing_binary_string(int num_to_convert_to_binary, int var);
-int bin_to_int( string s);
-void kmap_display( int minterm[], int var);
-void invoking_one(int type);
-void invoking_two(int arr[], int size, int n);
-void invoking_three(int arr[], int size, int n);
+void checking(long long int  arr[], long long int  size);
+long long int  exp_to_minterms(long long int  sizes, string t);
+vector_string generateGrayarr(long long int  n);
+void printing_binary_string(long long int  num_to_convert_to_binary, long long int  var);
+long long int  bin_to_int( string s);
+void kmap_display( long long int  minterm[], long long int  var);
+void invoking_one(long long int  type);
+void invoking_two(long long int  arr[], long long int  size,long long int  n);
+void invoking_three( long long int  arr[], long long int  size, long long int  n);
 void star();
 
 
 class solver
 {
 public:
-    int varis;
+    long long int  varis;
     string donts;
-    int data;
-    solver(int num) // constrcutor
+    long long int  data;
+    solver(long long int  num) // constrcutor
     {
         varis = num;
         donts.append(num, '-');
     }
 
     vector_string variables();
-    string binary_convertor(int decimal);
-    int grey_code_check(string one, string two);
+    string binary_convertor(long long int  decimal);
+    long long int  grey_code_check(string one, string two);
     bool check_present(vector_string one, string two);
     string compliments(string one, string two);
     vector_string minimization(vector_string min_terms);
@@ -62,16 +62,16 @@ vector_string solver ::variables()
 {
     vector_string v_m;
     string arguments[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
-    int i;
+    long long int  i;
     for (i = 0; i < varis; i++)
     {
         v_m.pb(arguments[i]);
     }
     return v_m;
 }
-string solver ::binary_convertor(int num)
+string solver ::binary_convertor(long long int  num)
 {
-    int temp = num;
+    long long int  temp = num;
     string binary_s = "";
     if (temp == 0)
     {
@@ -92,7 +92,7 @@ string solver ::binary_convertor(int num)
             temp = temp / 2;
         }
     }
-    int remainder = varis - binary_s.size();
+    long long int  remainder = varis - binary_s.size();
     while (remainder > 0)
     {
         binary_s = "0" + binary_s;
@@ -100,10 +100,10 @@ string solver ::binary_convertor(int num)
     }
     return binary_s;
 }
-int solver ::grey_code_check(string one, string two)
+long long int  solver ::grey_code_check(string one, string two)
 {
-    int diff = 0;
-    for (int i = 0; i < two.size(); i++)
+    long long int  diff = 0;
+    for (long long int  i = 0; i < two.size(); i++)
     {
         if (two[i] != one[i])
         {
@@ -121,9 +121,9 @@ int solver ::grey_code_check(string one, string two)
 }
 bool solver ::check_present(vector_string one, string two)
 {
-    for (int i = 0; i < one.size(); i++)
+    for (long long int  i = 0; i < one.size(); i++)
     {
-        int check = one[i].compare(two);
+        long long int  check = one[i].compare(two);
         if (check == 0)
         {
             return true;
@@ -134,7 +134,7 @@ bool solver ::check_present(vector_string one, string two)
 string solver ::compliments(string one, string two)
 {
     string result = "";
-    int i = 0;
+    long long int  i = 0;
     while (i < one.length())
     {
         if (two[i] != one[i])
@@ -151,17 +151,17 @@ string solver ::compliments(string one, string two)
 }
 vector_string solver ::minimization(vector_string min_terms)
 {
-    int size;
+    long long int  size;
     vector_string result;
     size = min_terms.size();
-    int *visited = new int[size];
-    int i = 0;
+    long long int  *visited = new long long int [size];
+    long long int  i = 0;
     while (i < size)
     {
-        int j = i;
+        long long int  j = i;
         while (j < size)
         {
-            int one_bit_d = grey_code_check(min_terms[i], min_terms[j]);
+            long long int  one_bit_d = grey_code_check(min_terms[i], min_terms[j]);
             if (one_bit_d == 1)
             {
                 visited[j] = 1;
@@ -178,7 +178,7 @@ vector_string solver ::minimization(vector_string min_terms)
         i++;
     }
 
-    for (int i = 0; i < size; i++)
+    for (long long int  i = 0; i < size; i++)
     {
         if (visited[i] != 1 && !check_present(result, min_terms[i]))
         {
@@ -197,7 +197,7 @@ string solver ::get_answer(string ans)
         return "1";
     }
 
-    for (int i = 0; i < ans.length(); i++)
+    for (long long int  i = 0; i < ans.length(); i++)
     {
         if (ans[i] != '-')
         {
@@ -219,7 +219,7 @@ bool solver ::string_equal(string one, string two)
     {
         return false;
     }
-    for (int i = 0; i < one.size(); i++)
+    for (long long int  i = 0; i < one.size(); i++)
     {
         if (one[i] != two[i])
         {
@@ -236,7 +236,7 @@ bool solver ::vector_equal(vector_string one, vector_string two)
     }
     sort(all(one));
     sort(all(two));
-    for (int i = 0; i < one.size(); i++)
+    for (long long int  i = 0; i < one.size(); i++)
     {
         if (one[i] != two[i])
         {
@@ -247,7 +247,7 @@ bool solver ::vector_equal(vector_string one, vector_string two)
 }
 
 
-int main()
+int  main()
 {
     intro();
     instructions();
@@ -255,7 +255,7 @@ int main()
     bool check = false;
     do
     {
-        int number;
+        long long int  number;
         cout << "\n Enter number of variables: ";
         cin >> number;
         if (number > 26 || number < 1)
@@ -267,9 +267,9 @@ int main()
         }
         invoking_one(number);
         solver k_map(number);
-        long long int power = pow(2, number);
-        int truth_table[power];
-        for (int j = 0; j < power; j++)
+        long long  int  power = 1>>number;
+        long long  int  truth_table[power];
+        for (long long int  j = 0; j < power; j++)
         {
             truth_table[j] = -1;
         }
@@ -277,11 +277,11 @@ int main()
         cout << "Press '1' for inputing SOP i.e. min terms." << endl;
         cout << "Press '2' for inputing POS i.e. max terms." << endl;
         cout << "Press '3' for inputing a boolean expression" << endl;
-        int choice;
+        long long int  choice;
         cin >> choice;
 
-        int num;
-        int x = 0;
+        long long int  num;
+        long long int  x = 0;
         string s;
         switch (choice)
         {
@@ -298,7 +298,7 @@ int main()
             } while (num != -1);
             break;
         case 2:
-            for (int i = 0; i < power; i++)
+            for (long long int  i = 0; i < power; i++)
             {
                 truth_table[i] = 1;
             }
@@ -329,7 +329,7 @@ int main()
                 cin >> s;
                 if (s != "-1")
                 {
-                    int h = exp_to_minterms(number, s);
+                    long long int  h = exp_to_minterms(number, s);
                     truth_table[h] = 1;
                 }
             } while (s != "-1");
@@ -341,7 +341,7 @@ int main()
         invoking_two(truth_table, power, number);
 
         vector<string> minterms; // for storing expressions
-        for (int i = 0; i < power; i++)
+        for (long long int  i = 0; i < power; i++)
         {
             if (truth_table[i] == 1)
             {
@@ -362,8 +362,8 @@ int main()
         invoking_three(truth_table, power, number);
         cout << "Answer: " << endl;
         nn;
-        int j = 0;
-        for (int i = 0; i < minterms.size() - 1; i++)
+        long long int  j = 0;
+        for (long long int  i = 0; i < minterms.size() - 1; i++)
         {
             cout << k_map.get_answer(minterms[i]);
             cout << "+";
@@ -378,14 +378,14 @@ int main()
 
         invoking_three(truth_table, power, number);
         cout << "Answer: " << endl;
-        int i;
+        long long int  i;
         for (i = 0; i < minterms.size() - 1; i++)
         cout << k_map.get_answer(minterms[i])<<"+";
         cout << k_map.get_answer(minterms[i]);
         nn;
         star();
         cout << "Enter (1) for displaying K- Map: ";
-        int kmap;
+        long long int  kmap;
         cin >> kmap;
         if (kmap == 1)
         {
@@ -431,12 +431,12 @@ void intro()
     system("pause");
     system("cls");
 }
-int exp_to_minterms(int sizes, string t)
+long long int  exp_to_minterms(long long int  sizes, string t)
 {
-    int sum = 0;
-    int k = sizes - 1;
-    int p = 0;
-    for (int j = 0; j < t.size(); j++)
+    long long int  sum = 0;
+    long long int  k = sizes - 1;
+    long long int  p = 0;
+    for (long long int  j = 0; j < t.size(); j++)
     {
         if (t[j] == 97 + p && t[j + 1] != 39)
         {
@@ -492,17 +492,17 @@ void instructions()
     system("pause");
     system("cls");
 }
-void checking(int arr[], int size)
+void checking(long long int  arr[], long long int  size)
 {
     cout<<"min terms stored are: ";
-    for (int y = 0; y < size; y++)
+    for (long long int  y = 0; y < size; y++)
     {
         if (arr[y] == 1)
             cout << y << " ";
     }
     cout<<endl;
 }
-void invoking_one (int type)
+void invoking_one (long long int  type)
 {
     system("cls");
     cout<<"Your Input:";
@@ -513,7 +513,7 @@ void invoking_one (int type)
     cout << "*********************" << endl;
     cout<<endl;
 }
-void invoking_two (int arr[] , int size , int n)
+void invoking_two (long long int  arr[] , long long int  size , long long int  n)
 {
     system("cls");
     cout<<"Your Input:";
@@ -521,7 +521,7 @@ void invoking_two (int arr[] , int size , int n)
     cout<<"\tNo. of variables: "<<n;
     cout<<endl;
     cout<<"Min Terms: ";
-    for(int i = 0; i<size; i++)
+    for(long long int  i = 0; i<size; i++)
     {
         if(arr[i] == 1)
         {
@@ -533,7 +533,7 @@ void invoking_two (int arr[] , int size , int n)
     cout << "***********************" << endl;
     cout<<endl;
 }
-void invoking_three(int arr[], int size, int n)
+void invoking_three(long long int  arr[], long long int  size, long long int  n)
 {
     system("cls");
     cout << "Your Input:";
@@ -541,7 +541,7 @@ void invoking_three(int arr[], int size, int n)
     cout << "\tNo. of variables: " << n;
     cout << endl;
     cout << "\tMin Terms: ";
-    for (int i = 0; i < size; i++)
+    for (long long int  i = 0; i < size; i++)
     {
         if (arr[i] == 1)
         {
@@ -560,7 +560,7 @@ void star()
     nn;nn;
 }
 
-vector_string generateGrayarr(int variables_number)
+vector_string generateGrayarr(long long int  variables_number)
 {
 
     vector<string> grey_code_vector;
@@ -571,7 +571,7 @@ vector_string generateGrayarr(int variables_number)
     }
     grey_code_vector.pb("0");
     grey_code_vector.pb("1");
-    int i, j;
+    long long int  i, j;
     for (i = 2; i < (1 << variables_number); i = i << 1)
     {
         for (j = i - 1; j >= 0; j--)
@@ -589,10 +589,10 @@ vector_string generateGrayarr(int variables_number)
     }
     return grey_code_vector;
 }
-int bin_to_int( string s)
+long long int  bin_to_int( string s)
 {
-    int sum = 0;
-    for(int i=0; i<s.size(); i++)
+    long long int  sum = 0;
+    for(long long int  i=0; i<s.size(); i++)
     {
         if(s[i] == '0')
         {
@@ -605,23 +605,23 @@ int bin_to_int( string s)
     }
     return sum;
 }
-void kmap_display( int minterm[], int var)
+void kmap_display( long long int  minterm[], long long int  var)
 {
-    int fi = var/2 + var%2;
-    int se = var/2;
+    long long int  fi = var/2 + var%2;
+    long long int  se = var/2;
     dbg(fi);
     dbg(se);
     string vari[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
     cout<<"Horizontal side variables: ";
-    int i;
+    long long int  i;
     for( i=0; i<fi; i++)
     {
         cout<<vari[i]<<" ";
     }
     nn;
-    int x = i;
+    long long int  x = i;
     cout<<"Vertical Side variables: ";
-    for(int j = 0; j<se; j++)
+    for(long long int  j = 0; j<se; j++)
     {
         cout<<vari[x]<<" ";
         x++;
@@ -636,13 +636,13 @@ void kmap_display( int minterm[], int var)
     }
     nn;
     vector_string veri = generateGrayarr(se);
-    for(int x=0; x<veri.size(); x++)
+    for(long long int  x=0; x<veri.size(); x++)
     {
         cout<<veri[x];
         tt;
-        for(int y = 0; y<hori.size(); y++)
+        for(long long int  y = 0; y<hori.size(); y++)
         {
-            int index = bin_to_int(hori[y] + veri[x]);
+            long long int  index = bin_to_int(hori[y] + veri[x]);
             if(minterm[index] == 1)
             {
                 cout<<"X"<<"("<<index<<")";
@@ -657,6 +657,5 @@ void kmap_display( int minterm[], int var)
     }
 
 }
-
 
 
