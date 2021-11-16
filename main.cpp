@@ -33,6 +33,8 @@ void invoking_one(int type);
 void invoking_two(int arr[], int size, int n);
 void invoking_three(int arr[], int size, int n);
 void star();
+
+
 class solver // class defined for minimizing
 {
 public:
@@ -49,6 +51,7 @@ int main()
 {
     intro();
     instructions();
+
     bool check = false;
     do
     {
@@ -63,7 +66,6 @@ int main()
             continue;
         }
         invoking_one(number);
-
         solver k_map(number);
         long long int power = pow(2, number);
         int truth_table[power];
@@ -71,11 +73,13 @@ int main()
         {
             truth_table[j] = -1;
         }
+
         cout << "Press '1' for inputing SOP i.e. min terms." << endl;
         cout << "Press '2' for inputing POS i.e. max terms." << endl;
         cout << "Press '3' for inputing a boolean expression" << endl;
         int choice;
         cin >> choice;
+
         int num;
         int x = 0;
         string s;
@@ -133,44 +137,70 @@ int main()
         default:
             break;
         }
-        invoking_two(truth_table, power , number);
+
+        invoking_two(truth_table, power, number);
+
         vector<string> minterms; // for storing expressions
-        if (choice == 1)
+        for (int i = 0; i < power; i++)
         {
-            for (int i = 0; i < power; i++)
+            if (truth_table[i] == 1)
             {
-                if (truth_table[i] == 1)
-                {
-                }
+                minterms.pb(k_map.binary_convertor(i));
             }
-        }
-        else if (choice == 2)
-        {
-            for (int i = 0; i < power; i++)
-            {
-                if (truth_table[i] == -1)
-                {
-                }
-            }
-        }
-        else if (choice == 3)
-        {
-        }
-        else
-        {
-            cout << "wrong input" << endl;
-            system("cls");
-            continue;
         }
         // checking(truth_table , power);
         system("pause");
-        sort(minterms.begin(), minterms.end());
-        char pass;
 
-        cout << "you can check the answer" << endl;
+        sort(all(minterms));
+        do
+        {
+            minterms = k_map.minimization(minterms);
+            sort(all(minterms));
+        } while (!k_map.vector_equal(minterms, k_map.minimization(minterms)));
+
+
+        invoking_three(truth_table, power, number);
+        cout << "Answer: " << endl;
+        nn;
+        int j = 0;
+        for (int i = 0; i < minterms.size() - 1; i++)
+        {
+            cout << k_map.get_answer(minterms[i]);
+            cout << "+";
+            j++;
+        }
+        cout << k_map.get_answer(minterms[j]);
+        nn;
+        nn;
         system("pause");
+        system("cls");
+
+
+        invoking_three(truth_table, power, number);
+        cout << "Answer: " << endl;
+        int i;
+        for (i = 0; i < minterms.size() - 1; i++)
+        cout << k_map.get_answer(minterms[i])<<"+";
+        cout << k_map.get_answer(minterms[i]);
+        nn;
+        star();
+        cout << "Enter (1) for displaying K- Map: ";
+        int kmap;
+        cin >> kmap;
+        if (kmap == 1)
+        {
+            cout << "Here is the Karnaugh Graph: ";
+            nn;
+            kmap_display(truth_table , number);
+        }
+        system("pause");
+        system("cls");
+
+
         cout << "\nwanna do it again?" << endl
              << "Enter 'y' for Yes and 'n' for No: ";
+
+        char pass;
         cin >> pass;
         if (pass == 'y')
         {
@@ -180,6 +210,7 @@ int main()
         else
         {
             check = false;
+            system("cls");
         }
     } while (check);
     ending();
@@ -302,7 +333,26 @@ void invoking_two (int arr[] , int size , int n)
     cout << "***********************" << endl;
     cout<<endl;
 }
-
+void invoking_three(int arr[], int size, int n)
+{
+    system("cls");
+    cout << "Your Input:";
+    cout << endl;
+    cout << "\tNo. of variables: " << n;
+    cout << endl;
+    cout << "\tMin Terms: ";
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] == 1)
+        {
+            cout << i << " ";
+        }
+    }
+    nn;
+    cout << "**********************************************";
+    cout << "***********************" << endl;
+    nn;
+}
 void star()
 {
     cout << "**********************************************";
@@ -355,5 +405,58 @@ int bin_to_int( string s)
     }
     return sum;
 }
+void kmap_display( int minterm[], int var)
+{
+    int fi = var/2 + var%2;
+    int se = var/2;
+    dbg(fi);
+    dbg(se);
+    string vari[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+    cout<<"Horizontal side variables: ";
+    int i;
+    for( i=0; i<fi; i++)
+    {
+        cout<<vari[i]<<" ";
+    }
+    nn;
+    int x = i;
+    cout<<"Vertical Side variables: ";
+    for(int j = 0; j<se; j++)
+    {
+        cout<<vari[x]<<" ";
+        x++;
+    }
+    nn;
+    tt;
+    vector_string hori = generateGrayarr(fi);
+    for( i=0; i<hori.size(); i++)
+    {
+        cout<<hori[i];
+        tt;
+    }
+    nn;
+    vector_string veri = generateGrayarr(se);
+    for(int x=0; x<veri.size(); x++)
+    {
+        cout<<veri[x];
+        tt;
+        for(int y = 0; y<hori.size(); y++)
+        {
+            int index = bin_to_int(hori[y] + veri[x]);
+            if(minterm[index] == 1)
+            {
+                cout<<"X"<<"("<<index<<")";
+            }
+            else
+            {
+                cout<<".";
+            }
+            tt;
+        }
+        nn;
+    }
+
+}
+
 
 
