@@ -131,6 +131,121 @@ bool solver ::check_present(vector_string one, string two)
     }
     return false;
 }
+string solver ::compliments(string one, string two)
+{
+    string result = "";
+    int i = 0;
+    while (i < one.length())
+    {
+        if (two[i] != one[i])
+        {
+            result = result + "-";
+        }
+        else
+        {
+            result = result + one[i];
+        }
+        i++;
+    }
+    return result;
+}
+vector_string solver ::minimization(vector_string min_terms)
+{
+    int size;
+    vector_string result;
+    size = min_terms.size();
+    int *visited = new int[size];
+    int i = 0;
+    while (i < size)
+    {
+        int j = i;
+        while (j < size)
+        {
+            int one_bit_d = grey_code_check(min_terms[i], min_terms[j]);
+            if (one_bit_d == 1)
+            {
+                visited[j] = 1;
+                visited[i] = 1;
+                string after_compliment = compliments(min_terms[i], min_terms[j]);
+                if (!check_present(result, after_compliment))
+                {
+                    string pushing = compliments(min_terms[i], min_terms[j]);
+                    result.pb(pushing);
+                }
+            }
+            j++;
+        }
+        i++;
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        if (visited[i] != 1 && !check_present(result, min_terms[i]))
+        {
+            result.pb(min_terms[i]);
+        }
+    }
+    delete[] visited;
+    return result;
+}
+string solver ::get_answer(string ans)
+{
+    string result = "";
+    vector_string arguments = this->variables();
+    if (ans == donts)
+    {
+        return "1";
+    }
+
+    for (int i = 0; i < ans.length(); i++)
+    {
+        if (ans[i] != '-')
+        {
+            if (ans[i] == '1')
+            {
+                result = result + arguments[i];
+            }
+            else
+            {
+                result = result + arguments[i] + "\'";
+            }
+        }
+    }
+    return result;
+}
+bool solver ::string_equal(string one, string two)
+{
+    if (one.size() != two.size())
+    {
+        return false;
+    }
+    for (int i = 0; i < one.size(); i++)
+    {
+        if (one[i] != two[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+bool solver ::vector_equal(vector_string one, vector_string two)
+{
+    if (one.size() != two.size())
+    {
+        return false;
+    }
+    sort(all(one));
+    sort(all(two));
+    for (int i = 0; i < one.size(); i++)
+    {
+        if (one[i] != two[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 
 int main()
 {
