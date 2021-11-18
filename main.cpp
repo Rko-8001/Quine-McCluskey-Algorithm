@@ -267,7 +267,7 @@ int  main()
         }
         invoking_one(number);
         solver k_map(number);
-        long long  int  power = 1>>number;
+        long long  int  power = pow(2,number);
         long long  int  truth_table[power];
         for (long long int  j = 0; j < power; j++)
         {
