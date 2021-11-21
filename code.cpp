@@ -312,3 +312,188 @@ int main()
     ending();
     return 0;
 }
+
+ll exp_to_minterms(ll sizes, string t)
+{
+    ll k = sizes - 1;
+    ll p = 0;
+    ll sum = 0;
+    for (ll j = 0; j < t.size(); j++)
+    {
+        if (t[j] == 65 + p && t[j + 1] != 39)
+        {
+            p++;
+            sum = sum + pow(2, k);
+            k--;
+        }
+        if (t[j] == 65 + p && t[j + 1] == 39)
+        {
+            p++;
+            k--;
+        }
+    }
+    return sum;
+}
+ll solver ::bin_to_int(string s)
+{
+    ll sum = 0;
+    for (ll i = 0; i < s.size(); i++)
+    {
+        if (s[i] == '0')
+        {
+            sum = sum * 2;
+        }
+        else
+        {
+            sum = sum * 2 + 1;
+        }
+    }
+    return sum;
+}
+void solver ::kmap_display(ll minterm[], ll var)
+{
+    ll fi = var / 2 + var % 2;
+    ll se = var / 2;
+    // dbg(fi);
+    // dbg(se);
+    nn;
+    string vari[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+    cout << "Horizontal side variables: ";
+    ll i;
+    for (i = 0; i < fi; i++)
+    {
+        cout << vari[i] << " ";
+    }
+    nn;
+    ll x = i;
+    cout << "Vertical Side variables: ";
+    for (ll j = 0; j < se; j++)
+    {
+        cout << vari[x] << " ";
+        x++;
+    }
+    nn;
+    nn;
+    tt;
+    vector_string hori = generateGrayarr(fi);
+    for (i = 0; i < hori.size(); i++)
+    {
+        cout << hori[i];
+        tt;
+    }
+    nn;
+    vector_string veri = generateGrayarr(se);
+    for (ll x = 0; x < veri.size(); x++)
+    {
+        cout << veri[x];
+        tt;
+        for (ll y = 0; y < hori.size(); y++)
+        {
+            ll index = bin_to_int(hori[y] + veri[x]);
+            if (minterm[index] == 1)
+            {
+                cout << "X";
+                cout << "(";
+                cout << index << ")";
+            }
+            else if (minterm[index] == 2)
+            {
+                cout << "*";
+                cout << "(" << index << ")";
+            }
+            else
+            {
+                cout << ".";
+            }
+            tt;
+        }
+        nn;
+    }
+}
+void solver::checking(ll arr[], ll num)
+{
+    cout << "min terms stored are: ";
+    for (ll y = 0; y < num; y++)
+    {
+        if (arr[y] == 1)
+            cout << y << " ";
+    }
+    nn;
+    cout << "Don't terms stored are: ";
+    for (ll y = 0; y < num; y++)
+    {
+        if (arr[y] == 2)
+            cout << y << " ";
+    }
+    nn;
+}
+void invoking_one(ll num)
+{
+    system("cls");
+    cout << "Your Input:";
+    cout << endl;
+    cout << "\tNo. of variables: " << num;
+    cout << endl;
+    cout << "**********************************************";
+    cout << "*********************" << endl;
+    cout << endl;
+}
+void solver::invoking_two(ll arr[], ll size)
+{
+    system("cls");
+    cout << "Your Input:";
+    cout << endl;
+    cout << "\tNo. of variables: " << num_var;
+    cout << endl;
+    cout << "Min Terms: ";
+    for (ll i = 0; i < size; i++)
+    {
+        if (arr[i] == 1)
+        {
+            cout << i << " ";
+        }
+    }
+    nn;
+    cout << "Don't care: ";
+    for (ll i = 0; i < size; i++)
+    {
+        if (arr[i] == 2)
+        {
+            cout << i << " ";
+        }
+    }
+    cout << endl;
+    cout << "**********************************************";
+    cout << "***********************" << endl;
+    cout << endl;
+}
+void solver::invoking_three(ll arr[], ll size)
+{
+    system("cls");
+    cout << "Your Input:";
+    cout << endl;
+    cout << "\tNo. of variables: " << num_var;
+    cout << endl;
+    cout << "\tMin Terms: ";
+    for (ll i = 0; i < size; i++)
+    {
+        if (arr[i] == 1)
+        {
+            cout << i << " ";
+        }
+    }
+    nn;
+    cout << "Don't care: ";
+    for (ll i = 0; i < size; i++)
+    {
+        if (arr[i] == 2)
+        {
+            cout << i << " ";
+        }
+    }
+    nn;
+    nn;
+    cout << "**********************************************";
+    cout << "***********************" << endl;
+    nn;
+}
