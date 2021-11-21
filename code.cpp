@@ -113,6 +113,7 @@ public:
     ll bin_to_int(string s); //convert binary to int 
     void kmap_display(ll minterm[], ll var); // displays k map upto 5 variables
 };
+//main function
 int main()
 {
     intro();
