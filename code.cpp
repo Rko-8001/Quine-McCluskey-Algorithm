@@ -629,8 +629,7 @@ void solver::star()
     cout << "***********************";
     nn;
     nn;
-}
-void solver::printing()
+}void solver::printing()
 {
     essential_implicants();
     ll NumberOfPossibleEPI = 1;
@@ -649,13 +648,19 @@ void solver::printing()
                 ll b = index_EPI[x][1];
                 ll c = index_EPI[x][2];
                 if (qm_columns[a][b][c][y] == 1)
-                    printf("%c", 65 + y);
+                {
+                    int es  =65 + y;
+                    cout<<char(es);
+                }
                 else if (qm_columns[a][b][c][y] == 0)
-                    printf("%c'", 65 + y);
+                {
+                    int es = 65 + y;
+                    cout<<char(es)<<"'";
+                }
             }
             if (x < num_EPI - 1)
             {
-                cout << "+";
+                cout << " +";
             }
         }
     }
@@ -709,7 +714,7 @@ void solver::printing()
 
         cout << "Your minimized expression is: ";
         nn;
-        ll x, y;
+       ll x, y;
         for (x = 0; x < num_EPI; x++)
         {
             for (y = 0; y < num_var; y++)
@@ -718,13 +723,19 @@ void solver::printing()
                 ll b = index_EPI[x][1];
                 ll c = index_EPI[x][2];
                 if (qm_columns[a][b][c][y] == 1)
-                    printf("%c", 65 + y);
+                {
+                    int es  =65 + y;
+                    cout<<char(es);
+                }
                 else if (qm_columns[a][b][c][y] == 0)
-                    printf("%c'", 65 + y);
+                {
+                    int es = 65 + y;
+                    cout<<char(es)<<"'";
+                }
             }
             if (x < num_EPI - 1)
             {
-                cout << "+";
+                cout << " +";
             }
         }
     }
