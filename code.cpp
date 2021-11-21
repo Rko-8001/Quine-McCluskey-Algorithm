@@ -857,3 +857,200 @@ void solver::prime_implicants()
                     }
                 }
 }
+void solver::grouping()
+{
+    creating_column();
+    ll i, j, k, m, l, n, p, position;
+    ll form_grp = 1;
+    ll logic_probe;
+    for (i = 0; i < num_var + 1; i++)
+    {
+        if (form_grp)
+        {
+            form_grp = 0;
+            for (j = 0; j < num_var - i; j++)
+            {
+                m = 0;
+                for (k = 0; k < num_same_setbits(i, j); k++)
+                    if (qm_columns[i][j][k] != NULL)
+                    {
+                        for (l = 0; l < num_same_setbits(i, j + 1); l++)
+                        {
+                            if (qm_columns[i][j + 1][l] != NULL && qm_columns[i][j + 1][l][num_var + 2 + i] > qm_columns[i][j][k][num_var + 2 + i] &&
+                                is_two_power(qm_columns[i][j + 1][l][num_var + 2 + i] - qm_columns[i][j][k][num_var + 2 + i]))
+                            {
+                                logic_probe = 0 - i;
+                                for (n = 1; n <= i; n++)
+                                    for (p = 1; p <= i; p++)
+                                        if (qm_columns[i][j + 1][l][num_var + 1 + n] == qm_columns[i][j][k][num_var + 1 + p])
+                                        {
+                                            logic_probe++;
+                                        }
+                                if (logic_probe == 0)
+                                {
+                                    form_grp = 1;
+                                    qm_columns[i][j][k][num_var + 1] = 1;
+                                    qm_columns[i][j + 1][l][num_var + 1] = 1;
+                                    qm_columns[i + 1][j][m] = (ll *)malloc((num_var + 4 + i + pow(2, i + 1)) * sizeof(ll));
+                                    for (n = 0; n <= num_var + 1 + i; n++)
+                                    {
+                                        qm_columns[i + 1][j][m][n] = qm_columns[i][j][k][n];
+                                    }
+                                    qm_columns[i + 1][j][m][num_var + 3 + i] = qm_columns[i][j][k][num_var + 2 + i];
+                                    for (n = num_var + 4 + i; n < num_var + 4 + i + pow(2, i + 1); n++)
+                                        qm_columns[i + 1][j][m][n] = 0;
+                                    position = log((qm_columns[i][j + 1][l][num_var + 2 + i] -
+                                                    qm_columns[i][j][k][num_var + 2 + i])) /
+                                               log(2);
+                                    qm_columns[i + 1][j][m][num_var - 1 - position] = 2;
+                                    qm_columns[i + 1][j][m][num_var + 1] = 0;
+                                    qm_columns[i + 1][j][m][num_var + 2 + i] = position;
+                                    for (p = 0; p < pow(2, i); p++)
+                                    {
+                                        qm_columns[i + 1][j][m][num_var + 4 + i + p] = qm_columns[i][j][k][num_var + 3 + i +
+                                                                                                           p];
+                                    }
+                                    for (p = pow(2, i); p < pow(2, i + 1); p++)
+                                    {
+                                        qm_columns[i + 1][j][m][num_var + 4 + i + p] = qm_columns[i][j + 1][l][num_var + 3 +
+                                                                                                               i + p - (ll)pow(2, i)];
+                                    }
+                                    m++;
+                                }
+                            }
+                        }
+                    }
+            }
+        }
+    }
+}
+bool solver ::is_two_power(ll check)
+{
+    if (floor(log(check) / log(2)) == (log(check) / log(2)))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+void solver::creating_column()
+{
+    storing_binary();
+    qm_columns = (ll ****)malloc((num_var + 1) * sizeof(ll ***));
+    for (ll i = 0; i < num_var + 1; i++)
+    {
+        qm_columns[i] = (ll ***)malloc((num_var + 1 - i) * sizeof(ll **));
+    }
+    for (ll i = 0; i < num_var + 1; i++)
+    {
+        for (ll j = 0; j < num_var + 1 - i; j++)
+        {
+            qm_columns[i][j] = (ll **)malloc(num_same_setbits(i, j) * sizeof(ll *));
+            for (ll k = 0; k < num_same_setbits(i, j); k++)
+            {
+                qm_columns[i][j][k] = NULL;
+            }
+        }
+    }
+    for (ll i = 0; i < num_var + 1; i++)
+    {
+        ll k = 0;
+        for (ll j = 0; j < num_min; j++)
+        {
+            if (min_term_bin[j][num_var] == i)
+            {
+                qm_columns[0][i][k] = min_term_bin[j];
+                k++;
+            }
+        }
+    }
+}
+ll solver::num_same_setbits(ll column_no, ll set_bits)
+{
+    ll ntok, kto1, temp;
+    ntok = 1;
+    kto1 = 1;
+    temp = num_var;
+    ll i = temp;
+    while (i >= temp + 1 - set_bits + 1 - column_no)
+    {
+        ntok = i * ntok;
+        i--;
+    }
+    i = set_bits;
+    while (i)
+    {
+        kto1 = i * kto1;
+        i--;
+    }
+    ll result = ntok / kto1;
+    return result;
+}
+ll solver::count_setbit(ll *arr, ll num)
+{
+    ll count = 0;
+    for (ll i = 0; i < num; i++)
+    {
+        if (arr[i] == 1)
+        {
+            count++;
+        }
+    }
+    return count;
+}
+void solver::conversion_DectoBinary()
+{
+    for (ll i = 0; i < num_min; i++)
+    {
+        ll x = min_term_dec[i];
+        ll j = num_var - 1;
+        while (j >= 0)
+        {
+            min_term_bin[i][j] = x % 2;
+            x = x / 2;
+            j--;
+        }
+    }
+}
+void solver ::storing_binary()
+{
+    min_term_bin = (ll **)malloc(num_min * sizeof(ll *));
+    for (ll i = 0; i <= num_min; i++)
+    {
+        min_term_bin[i] = (ll *)malloc((num_var + 4) * sizeof(ll));
+    }
+    conversion_DectoBinary();
+    for (ll i = 0; i < num_min; i++)
+    {
+        min_term_bin[i][num_var] = count_setbit(min_term_bin[i], num_var);
+        min_term_bin[i][num_var + 1] = 0;
+        min_term_bin[i][num_var + 2] = min_term_dec[i];
+        min_term_bin[i][num_var + 3] = min_term_dec[i];
+    }
+}
+vector_string solver ::variables()
+{
+    vector_string v_m;
+    string arguments[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+    ll i;
+    for (i = 0; i < num_var; i++)
+    {
+        v_m.pb(arguments[i]);
+    }
+    return v_m;
+}
+void solver ::storing_min_terms(vector<ll> min_term, vector<ll> donts)
+{
+    min_term_dec = (ll *)malloc(num_min * sizeof(ll));
+    dont_term_dec = (ll *)malloc(num_dont * sizeof(ll));
+    for (ll i = 0; i < min_term.size(); i++)
+    {
+        min_term_dec[i] = min_term[i];
+    }
+    for (ll i = 0; i < donts.size(); i++)
+    {
+        dont_term_dec[i] = donts[i];
+    }
+}
