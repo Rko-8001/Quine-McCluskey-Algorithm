@@ -316,23 +316,24 @@ int main()
 
 ll exp_to_minterms(ll sizes, string t)
 {
-    ll k = sizes - 1;
-    ll p = 0;
-    ll sum = 0;
-    for (ll j = 0; j < t.size(); j++)
+    ll arr[size];
+    for(ll i=0; i<size;i++)
     {
-        if (t[j] == 65 + p && t[j + 1] != 39)
+        arr[i] = 0;
+    }
+    for(ll i=0; i<s.size(); i++)
+    {
+        if(s[i+1] != 39)
         {
-            p++;
-            sum = sum + pow(2, k);
-            k--;
-        }
-        if (t[j] == 65 + p && t[j + 1] == 39)
-        {
-            p++;
-            k--;
+            arr[s[i]-65] = 1;
         }
     }
+    ll sum = 0;
+    for(ll i = 0; i <size; i++)
+    {
+        sum = sum*2 + arr[i];
+    }
+    cout<<sum;
     return sum;
 }
 ll solver ::bin_to_int(string s)
