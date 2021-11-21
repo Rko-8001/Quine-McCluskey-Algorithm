@@ -28,7 +28,7 @@ using namespace std;
 // typedefing for easier code writing and reading
 typedef vector<ll> vint;
 typedef vector<string> vector_string;
-bool check_exp(string s, ll size);
+int check_exp(string s, ll size);
 // Function contains brief info about project
 void intro();
 // functions displays all the instructons regarding input and output
@@ -72,15 +72,17 @@ public:
     ll *NumberCounter; // contains how many times a min term occur
     ll **index_PI;     // dynamic conatains the prime implicants (say {2,4})
     ll **index_EPI;    // dynamic conatains the essential prime implicants
-    ll *reduc_PI_one;ll **reduc_PI_two;ll **reduc_PI_three; // contains info of
+    ll *reduc_PI_one;
+    ll **reduc_PI_two;
+    ll **reduc_PI_three; // contains info of
     // whether the PI has been selected or not
-    ll *For;// used in recursion function
-    ll **maybe_EPI;// stores combo of PIs which covers all min terms
+    ll *For;                 // used in recursion function
+    ll **maybe_EPI;          // stores combo of PIs which covers all min terms
     solver(ll x, ll y, ll z) // constructor
     {
-        num_var =  x; //initialization of number of varibales
-        num_min =  y; //initialization of number of min terms
-        num_dont = z; //initialization of number of dont cares
+        num_var = x;  // initialization of number of varibales
+        num_min = y;  // initialization of number of min terms
+        num_dont = z; // initialization of number of dont cares
     }
     vector_string variables();     // creating a vector string
     void conversion_DectoBinary(); // function for converting
@@ -90,30 +92,30 @@ public:
     // and other containing dont care
     ll count_setbit(ll *one, ll two); // count whether it contains
     // one in binary form as int var given
-    void storing_binary();// function extension of conversion_DectoBinary
+    void storing_binary();               // function extension of conversion_DectoBinary
     ll num_same_setbits(ll one, ll two); //
-    void creating_column();// creates a 4D dynamic array
+    void creating_column();              // creates a 4D dynamic array
     // and groups of min terms
-    bool is_two_power(ll one);// to check whther number is power of two or not
-    void grouping();// function that gorups the PIs
-    void prime_implicants();// stores PIs in index_PI
-    void remove_dontcare(); // remove the dont care terms
-    void essential_implicants();// filter out essential implicants
-    void recursion(ll one);// finds potential EPIs
-    void printing();// prints minimized expression
-    void checking(ll arr[], ll num);// just for debugginh
+    bool is_two_power(ll one);           // to check whther number is power of two or not
+    void grouping();                     // function that gorups the PIs
+    void prime_implicants();             // stores PIs in index_PI
+    void remove_dontcare();              // remove the dont care terms
+    void essential_implicants();         // filter out essential implicants
+    void recursion(ll one);              // finds potential EPIs
+    void printing();                     // prints minimized expression
+    void checking(ll arr[], ll num);     // just for debugginh
     vector_string generateGrayarr(ll n); // this function genrated the grey code
     // for displaying k map
-    void invoking_two(ll arr[], ll size);// functions erases all the input user has input
+    void invoking_two(ll arr[], ll size); // functions erases all the input user has input
     // from user interface and displays only important info
     void invoking_three(ll arr[], ll size);
     // functions erases all the input user has input
     // from user interface and displays only important info
-    void star(); // prints star line
-    ll bin_to_int(string s); //convert binary to int 
+    void star();                             // prints star line
+    ll bin_to_int(string s);                 // convert binary to int
     void kmap_display(ll minterm[], ll var); // displays k map upto 5 variables
 };
-//main function
+// main function
 int main()
 {
     intro();
@@ -202,7 +204,8 @@ int main()
             } while (num != -1);
             nn;
             break;
-        cout << "Enter boolean expression terms one by one with atmost " << num1;
+        case 3:
+            cout << "Enter boolean expression terms one by one with atmost " << num1;
             cout << " variables named as below\n";
             char i;
             cout << "< ";
@@ -357,21 +360,21 @@ int main()
 ll exp_to_minterms(ll size, string s)
 {
     ll arr[size];
-    for(ll i=0; i<size;i++)
+    for (ll i = 0; i < size; i++)
     {
         arr[i] = 0;
     }
-    for(ll i=0; i<s.size(); i++)
+    for (ll i = 0; i < s.size(); i++)
     {
-        if(s[i+1] != 39)
+        if (s[i + 1] != 39)
         {
-            arr[s[i]-65] = 1;
+            arr[s[i] - 65] = 1;
         }
     }
     ll sum = 0;
-    for(ll i = 0; i <size; i++)
+    for (ll i = 0; i < size; i++)
     {
-        sum = sum*2 + arr[i];
+        sum = sum * 2 + arr[i];
     }
     return sum;
 }
@@ -670,7 +673,8 @@ void solver::star()
     cout << "***********************";
     nn;
     nn;
-}void solver::printing()
+}
+void solver::printing()
 {
     essential_implicants();
     ll NumberOfPossibleEPI = 1;
@@ -690,13 +694,13 @@ void solver::star()
                 ll c = index_EPI[x][2];
                 if (qm_columns[a][b][c][y] == 1)
                 {
-                    int es  =65 + y;
-                    cout<<char(es);
+                    int es = 65 + y;
+                    cout << char(es);
                 }
                 else if (qm_columns[a][b][c][y] == 0)
                 {
                     int es = 65 + y;
-                    cout<<char(es)<<"'";
+                    cout << char(es) << "'";
                 }
             }
             if (x < num_EPI - 1)
@@ -755,7 +759,7 @@ void solver::star()
 
         cout << "Your minimized expression is: ";
         nn;
-       ll x, y;
+        ll x, y;
         for (x = 0; x < num_EPI; x++)
         {
             for (y = 0; y < num_var; y++)
@@ -765,13 +769,13 @@ void solver::star()
                 ll c = index_EPI[x][2];
                 if (qm_columns[a][b][c][y] == 1)
                 {
-                    int es  =65 + y;
-                    cout<<char(es);
+                    int es = 65 + y;
+                    cout << char(es);
                 }
                 else if (qm_columns[a][b][c][y] == 0)
                 {
                     int es = 65 + y;
-                    cout<<char(es)<<"'";
+                    cout << char(es) << "'";
                 }
             }
             if (x < num_EPI - 1)
@@ -1106,32 +1110,32 @@ void solver ::storing_min_terms(vector<ll> min_term, vector<ll> donts)
         dont_term_dec[i] = donts[i];
     }
 }
-bool check_exp(string s, ll size)
+int check_exp(string s, ll size)
 {
     ll arr[size];
-    for(ll i=0; i<size;i++)
+    for (ll i = 0; i < size; i++)
     {
         arr[i] = -1;
     }
-    for(ll i=0; i<s.size(); i++)
+    for (ll i = 0; i < s.size(); i++)
     {
-        if(s[i+1] != 39)
+        if (s[i + 1] != 39)
         {
-            ll x = s[i] -65;
-            if(x >= size)
+            ll x = s[i] - 65;
+            if (x >= size)
             {
-                return false;
+                return 0;
             }
             arr[x] = 1;
         }
     }
-    
-    for(ll i = 0; i <size; i++)
+
+    for (ll i = 0; i < size; i++)
     {
-        if(arr[i] == -1)
+        if (arr[i] == -1)
         {
-            return false;
+            return 0;
         }
     }
-    return true;
+    return 1;
 }
