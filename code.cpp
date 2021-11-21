@@ -594,6 +594,8 @@ void instructions()
     nn;
     cout << "In the input, if you have pressed '3' i.e you have chosen to enter boolean expression then";
     cout << " each expression should be entered one by one and each expression should contain each variables";
+    cout<<"expression should in form of POS."
+    nn;
     cout << " for example num_var = 4 so variables are (a,b,c,d).";
     cout << " sample expression is a'bcd' or a'b'c'd or abcd and so on";
     nn;
