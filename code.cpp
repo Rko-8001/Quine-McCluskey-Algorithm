@@ -28,7 +28,7 @@ using namespace std;
 // typedefing for easier code writing and reading
 typedef vector<ll> vint;
 typedef vector<string> vector_string;
-
+bool check_exp(string s, ll size);
 // Function contains brief info about project
 void intro();
 // functions displays all the instructons regarding input and output
