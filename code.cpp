@@ -498,3 +498,135 @@ void solver::invoking_three(ll arr[], ll size)
     cout << "***********************" << endl;
     nn;
 }
+vector_string solver::generateGrayarr(ll variables_number)
+{
+
+    vector<string> grey_code_vector;
+    if (variables_number <= 1)
+    {
+        grey_code_vector.pb(" ");
+        return grey_code_vector;
+    }
+    grey_code_vector.pb("0");
+    grey_code_vector.pb("1");
+    ll i, j;
+    for (i = 2; i < (1 << variables_number); i = i << 1)
+    {
+        for (j = i - 1; j >= 0; j--)
+        {
+            grey_code_vector.pb(grey_code_vector[j]);
+        }
+        for (j = 0; j < i; j++)
+        {
+            grey_code_vector[j] = "0" + grey_code_vector[j];
+        }
+        for (j = i; j < 2 * i; j++)
+        {
+            grey_code_vector[j] = "1" + grey_code_vector[j];
+        }
+    }
+    return grey_code_vector;
+}
+void ending()
+{
+    system("pause");
+    system("cls");
+    cout << "\t\t-----***You are welcome***-----";
+    cout << endl
+         << "Created by" << endl;
+    cout << "\t\t 2020csb1141 \t Vinay Kumar" << endl;
+    cout << "\t\t 2020csb1143 \t Yadwinder Singh" << endl;
+}
+void instructions()
+{
+    cout << "Hi There, \nHere is some info regarding inputing data: ";
+    nn;
+    nn;
+    cout << "Solving Steps: ";
+    nn;
+    cout << "Enter number of variables : say num_var (ll)";
+    nn;
+    nn;
+    cout << "You are given 3 choices for inputing: ";
+    nn;
+    tt;
+    cout << " \tPress '1' for inputing SOP i.e. min terms.";
+    tt;
+    nn;
+    tt;
+    cout << " \tPress '2' for inputing POS i.e. max terms.";
+    tt;
+    nn;
+    tt;
+    cout << " \tPress '3' for inputing a boolean expression";
+    nn;
+    nn;
+    cout << "Pick any one of above";
+    nn;
+    nn;
+    cout << "if pressed '1', then input min terms and enter '-1' for stopping ";
+    nn;
+    tt;
+    tt;
+    cout << "then enter don't care terms and enter '-1' for stopping";
+    nn;
+    nn;
+    cout << "if pressed '2', then input max terms and enter '-1' for stopping ";
+    nn;
+    tt;
+    tt;
+    cout << "then enter don't care terms and enter '-1' for stopping";
+    nn;
+    nn;
+    cout << " if pressed '3', then input each expression one by one and enter '-1' for stopping ";
+    nn;
+    tt;
+    tt;
+    cout << "then enter don't care expression and enter '-1' for stopping";
+    nn;
+    nn;
+    cout << "You are ready to go";
+    nn;
+    nn;
+    nn;
+    cout << "\t\t\t\t **Note**";
+    nn;
+    nn;
+    cout << "In the input, if you have pressed '3' i.e you have chosen to enter boolean expression then";
+    cout << " each expression should be entered one by one and each expression should contain each variables";
+    cout << " for example num_var = 4 so variables are (a,b,c,d).";
+    cout << " sample expression is a'bcd' or a'b'c'd or abcd and so on";
+    nn;
+    nn;
+    nn;
+    system("pause");
+    system("cls");
+}
+void intro()
+{
+    system("cls");
+    cout << "\t\t\t\t Welcome to our CS203 Project - Logic Minimizer" << endl;
+    cout << "\t\t\t\t **********************************************" << endl
+         << endl;
+    cout << "It's a c++ program to simplify Boolean expressions inspired by Karnaugh map based on qm method.\n\nFunctionality:\n";
+    cout << "This project takes the input of number of Boolean variables from the user. ";
+    cout << "The user should enter the input either in form of min terms(SOP), ";
+    cout << "max terms(POS) or can also enter the Boolean expression itself.";
+    cout << " then user enter don't care terms";
+    nn;
+    nn;
+    cout << "User will get k-map alongside minimized boolean expression.";
+    nn;
+    // cout<<"The program will make the k map of the given the expression,";
+    // cout<<" also the minimized form of the Boolean expression.\n";
+    cout << endl;
+    system("pause");
+    system("cls");
+}
+void solver::star()
+{
+    cout << "**********************************************";
+    cout << "***********************";
+    nn;
+    nn;
+}
