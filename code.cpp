@@ -354,7 +354,7 @@ int main()
     return 0;
 }
 
-ll exp_to_minterms(ll sizes, string t)
+ll exp_to_minterms(ll sizes, string s)
 {
     ll arr[size];
     for(ll i=0; i<size;i++)
