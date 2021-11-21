@@ -333,7 +333,6 @@ ll exp_to_minterms(ll sizes, string t)
     {
         sum = sum*2 + arr[i];
     }
-    cout<<sum;
     return sum;
 }
 ll solver ::bin_to_int(string s)
