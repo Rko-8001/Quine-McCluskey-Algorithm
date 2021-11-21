@@ -630,3 +630,230 @@ void solver::star()
     nn;
     nn;
 }
+void solver::printing()
+{
+    essential_implicants();
+    ll NumberOfPossibleEPI = 1;
+    ll i, j, k, l;
+    ll MinimumNo;
+    if (num_rem_PI == 0)
+    {
+        cout << "Your minimized expression is: ";
+        nn;
+        ll x, y;
+        for (x = 0; x < num_EPI; x++)
+        {
+            for (y = 0; y < num_var; y++)
+            {
+                ll a = index_EPI[x][0];
+                ll b = index_EPI[x][1];
+                ll c = index_EPI[x][2];
+                if (qm_columns[a][b][c][y] == 1)
+                    printf("%c", 65 + y);
+                else if (qm_columns[a][b][c][y] == 0)
+                    printf("%c'", 65 + y);
+            }
+            if (x < num_EPI - 1)
+            {
+                cout << "+";
+            }
+        }
+    }
+    else
+    {
+        for (i = 0; i < num_rem_min; i++)
+            reduc_PI_three[i] = (ll *)malloc(num_rem_PI * sizeof(ll));
+        for (i = 0; i < num_rem_min; i++)
+            for (j = 0; j < num_rem_PI; j++)
+                reduc_PI_three[i][j] = 0;
+        for (i = 0; i < num_rem_PI; i++)
+            for (j = 0; j < pow(2, reduc_PI_two[i][0]); j++)
+                for (k = 0; k < num_rem_min; k++)
+                    if (qm_columns[reduc_PI_two[i][0]][reduc_PI_two[i][1]][reduc_PI_two[i][2]][num_var + 3 + reduc_PI_two[i][0] + j] == reduc_PI_one[k])
+                    {
+                        reduc_PI_three[k][i] = 1;
+                    }
+        For = (ll *)malloc(num_rem_min * sizeof(ll));
+        for (i = 0; i < num_rem_min; i++)
+        {
+            For[i] = -1;
+        }
+        for (i = 0; i < num_rem_min; i++)
+            NumberOfPossibleEPI = NumberOfPossibleEPI * NumberCounter[reduc_PI_one[i]];
+        maybe_EPI = (ll **)malloc(NumberOfPossibleEPI * sizeof(ll *));
+        for (i = 0; i < NumberOfPossibleEPI; i++)
+        {
+            maybe_EPI[i] = (ll *)malloc(num_rem_min * sizeof(ll));
+        }
+        recursion(num_rem_min - 1);
+        ll *NoOfPIForEPI = (ll *)malloc(NumberOfPossibleEPI * sizeof(ll));
+
+        for (i = 0; i < NumberOfPossibleEPI; i++)
+            NoOfPIForEPI[i] = 0;
+        for (i = 0; i < NumberOfPossibleEPI; i++)
+            for (j = 0; j < num_rem_min; j++)
+                if (maybe_EPI[i][j] != -1)
+                {
+                    NoOfPIForEPI[i]++;
+                    for (k = j + 1; k < num_rem_min; k++)
+                        if (maybe_EPI[i][k] == maybe_EPI[i][j])
+                            maybe_EPI[i][k] = -1;
+                }
+
+        for (i = 1; i < NumberOfPossibleEPI; i++)
+            if (NoOfPIForEPI[i] < NoOfPIForEPI[MinimumNo])
+                MinimumNo = i;
+        for (i = 0; i < num_rem_min; i++)
+            if (maybe_EPI[MinimumNo][i] != -1)
+                index_EPI[num_EPI++] = reduc_PI_two[maybe_EPI[MinimumNo][i]];
+
+        cout << "Your minimized expression is: ";
+        nn;
+        ll x, y;
+        for (x = 0; x < num_EPI; x++)
+        {
+            for (y = 0; y < num_var; y++)
+            {
+                ll a = index_EPI[x][0];
+                ll b = index_EPI[x][1];
+                ll c = index_EPI[x][2];
+                if (qm_columns[a][b][c][y] == 1)
+                    printf("%c", 65 + y);
+                else if (qm_columns[a][b][c][y] == 0)
+                    printf("%c'", 65 + y);
+            }
+            if (x < num_EPI - 1)
+            {
+                cout << "+";
+            }
+        }
+    }
+}
+void solver::recursion(ll num)
+{
+    ll temp = num;
+    for (For[temp] = 0; For[temp] < num_rem_PI; For[temp]++)
+    {
+        if (reduc_PI_three[num_rem_min - 1 - temp][For[temp]])
+        {
+            if (temp > 0)
+            {
+                num = temp;
+                num--;
+                recursion(num);
+            }
+            else if (temp == 0)
+            {
+                for (ll i = 0; i < num_rem_min; i++)
+                {
+                    maybe_EPI[pot_EPI][i] = For[num_rem_min - 1 - i];
+                }
+                pot_EPI++;
+            }
+        }
+    }
+}
+void solver::essential_implicants()
+{
+    prime_implicants();
+    remove_dontcare();
+    index_EPI = (ll **)malloc(num_min * sizeof(ll *));
+    ll i, j, k, l;
+    for (i = 0; i < pow(2, num_var); i++)
+        if (NumberCounter[i] == 1)
+            for (j = 0; j < num_PI; j++)
+                for (k = 0; k < pow(2, index_PI[j][0]); k++)
+                {
+                    if (qm_columns[index_PI[j][0]][index_PI[j][1]][index_PI[j][2]][num_var + 3 + index_PI[j][0] + k] == i)
+                    {
+                        index_EPI[num_EPI] = index_PI[j];
+                        for (l = 0; l < pow(2, index_PI[j][0]); l++)
+                            NumberCounter[qm_columns[index_PI[j][0]][index_PI[j][1]][index_PI[j][2]][num_var + 3 + index_PI[j][0] + l]] = 0;
+                        num_EPI++;
+                        k = pow(2, index_PI[j][0]);
+                    }
+                }
+    num_rem_min = 0;
+    for (i = 0; i < pow(2, num_var); i++)
+        if (NumberCounter[i] != 0)
+            num_rem_min++;
+    reduc_PI_one = (ll *)malloc(num_rem_min * sizeof(ll));
+    for (i = 0; i < num_rem_min; i++)
+        reduc_PI_one[i] = -1;
+    reduc_PI_two = (ll **)malloc(num_PI * sizeof(ll *));
+    for (i = 0; i < num_PI; i++)
+        reduc_PI_two[i] = NULL;
+    reduc_PI_three = (ll **)malloc(num_rem_min * sizeof(ll *));
+
+    for (i = 0, j = 0; j < pow(2, num_var); j++)
+        if (NumberCounter[j] != 0)
+        {
+            reduc_PI_one[i] = j;
+            i++;
+        }
+    num_rem_PI = 0;
+    for (i = 0; i < num_PI; i++)
+        for (j = 0; j < pow(2, index_PI[i][0]); j++)
+        {
+            if (NumberCounter[qm_columns[index_PI[i][0]][index_PI[i][1]][index_PI[i][2]][num_var + 3 + index_PI[i][0] + j]] != 0)
+            {
+                j = pow(2, index_PI[i][0]);
+                reduc_PI_two[num_rem_PI] = index_PI[i];
+                num_rem_PI++;
+            }
+        }
+}
+void solver::remove_dontcare()
+{
+    for (ll i = 0; i < num_dont; i++)
+    {
+        NumberCounter[dont_term_dec[i]] = 0;
+    }
+}
+void solver::prime_implicants()
+{
+    grouping();
+    ll a = num_var;
+    ll logic_probe;
+    NumberCounter = (ll *)malloc(pow(2, a) * sizeof(ll));
+    for (ll i = 0; i < pow(2, a); i++)
+        NumberCounter[i] = 0;
+
+    index_PI = (ll **)malloc(num_min * sizeof(ll *));
+    for (ll i = 0; i < num_min; i++)
+    {
+        index_PI[i] = (ll *)malloc(3 * sizeof(ll));
+    }
+    ll i, j, k, l, m, n;
+    for (i = 0; i < a + 1; i++)
+        for (j = 0; j < a + 1 - i; j++)
+            for (k = 0; k < num_same_setbits(i, j); k++)
+                if (qm_columns[i][j][k] != NULL && qm_columns[i][j][k][a + 1] == 0)
+                {
+                    logic_probe = 0 - pow(2, i); /*logic_probe is used to
+                         check whether this PI is a duplicate*/
+                    for (l = k - 1; l >= 0; l--)
+                        if (logic_probe != 0)
+                        {
+                            logic_probe = 0 - pow(2, i);
+                            for (m = 0; m < pow(2, i); m++)
+                                for (n = 0; n < pow(2, i); n++)
+                                    if (qm_columns[i][j][l][a + 3 + i + m] == qm_columns[i][j][k][a + 3 + i + n])
+                                    {
+                                        logic_probe++;
+                                    }
+                        }
+
+                    if (logic_probe != 0)
+                    {
+                        index_PI[num_PI][0] = i;
+                        index_PI[num_PI][1] = j;
+                        index_PI[num_PI][2] = k;
+                        num_PI++;
+                        for (l = 0; l < pow(2, i); l++)
+                        {
+                            NumberCounter[qm_columns[i][j][k][a + 3 + i + l]]++;
+                        }
+                    }
+                }
+}
