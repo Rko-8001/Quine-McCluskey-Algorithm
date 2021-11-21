@@ -1067,3 +1067,32 @@ void solver ::storing_min_terms(vector<ll> min_term, vector<ll> donts)
         dont_term_dec[i] = donts[i];
     }
 }
+bool check_exp(string s, ll size)
+{
+    ll arr[size];
+    for(ll i=0; i<size;i++)
+    {
+        arr[i] = -1;
+    }
+    for(ll i=0; i<s.size(); i++)
+    {
+        if(s[i+1] != 39)
+        {
+            ll x = s[i] -65;
+            if(x >= size)
+            {
+                return false;
+            }
+            arr[x] = 1;
+        }
+    }
+    
+    for(ll i = 0; i <size; i++)
+    {
+        if(arr[i] == -1)
+        {
+            return false;
+        }
+    }
+    return true;
+}
