@@ -146,7 +146,7 @@ int main()
         cout << "Press '3' for inputing a boolean expression" << endl;
         ll choice;
         cin >> choice;
-
+        int wrong = 0;
         ll num;
         ll x = 0;
         string s;
@@ -202,12 +202,11 @@ int main()
             } while (num != -1);
             nn;
             break;
-        case 3:
-            cout << "Enter boolean expression terms one by one with atmost " << num1;
+        cout << "Enter boolean expression terms one by one with atmost " << num1;
             cout << " variables named as below\n";
             char i;
             cout << "< ";
-            for (i = 'a'; i <= 'z' && x < num1; i++)
+            for (i = 'A'; i <= 'Z' && x < num1; i++)
             {
                 cout << i << " ";
                 x++;
@@ -220,10 +219,29 @@ int main()
                 cin >> s;
                 if (s != "-1")
                 {
-                    ll h = exp_to_minterms(num1, s);
-                    truth_table[h] = 1;
+                    int checking_exp = check_exp(s, num1);
+                    if (checking_exp == 1)
+                    {
+                        ll h = exp_to_minterms(num1, s);
+                        truth_table[h] = 1;
+                    }
+                    else
+                    {
+                        wrong = 1;
+                        cout << "Warning!! \nPlease enter correct SOP term!!";
+                        nn;
+                        cout << "Try again";
+                        nn;
+                        system("pause");
+                        system("cls");
+                        break;
+                    }
                 }
             } while (s != "-1");
+            if (wrong == 1)
+            {
+                break;
+            }
             cout << "Enter don't care boolean expression terms one by one with atmost " << num1;
             cout << " variables named as below\n";
             nn;
@@ -233,13 +251,35 @@ int main()
                 cin >> s;
                 if (s != "-1")
                 {
-                    ll h = exp_to_minterms(num1, s);
-                    truth_table[h] = 2;
+                    bool checking_exp = check_exp(s, num1);
+                    if (checking_exp)
+                    {
+                        ll h = exp_to_minterms(num1, s);
+                        truth_table[h] = 2;
+                    }
+                    else
+                    {
+                        cout << "Warning!! \nPlease enter correct SOP term!!";
+                        nn;
+                        cout << "Try again";
+                        nn;
+                        system("pause");
+                        system("cls");
+                        nn;
+                        wrong = 1;
+                        // return 0;
+                        break;
+                    }
                 }
             } while (s != "-1");
             break;
         default:
             break;
+        }
+        if (wrong == 1)
+        {
+            check = true;
+            continue;
         }
         ll y = 0;
         ll z = 0;
